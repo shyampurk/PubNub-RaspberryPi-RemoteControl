@@ -1,0 +1,179 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Raspberry Pi LEF Controller">
+        <link href='http://fonts.googleapis.com/css?family=Lato:300,400,400italic' rel='stylesheet' type='text/css'>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script src="http://cdn.pubnub.com/pubnub-3.7.1.min.js"></script>
+        <style>
+            #controller {
+             
+                position:absolute;
+                left:0;
+                top:0;
+                width:450px;
+                height:250px;
+                background-color: rgba(196, 204, 208, 0.9);
+                
+            }
+
+            
+            #led {
+                
+                position: absolute;
+                margin: 0px;
+                left: 110px;
+                top: 75px;
+                width: 51px;
+                height: 75px;
+                right: auto;
+                bottom: auto;
+                border-radius: 25px 25px 0px 0px;
+                border: 0px none rgb(0, 0, 0);
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                -webkit-transform: translateZ(0px);
+                background-size: 100% 100%;
+                
+            }
+            
+            #ledterminallong {
+             
+                position: absolute;
+                margin: 0px;
+                left: 145px;
+                top: 150px;
+                width: 3px;
+                height: 80px;
+                right: auto;
+                bottom: auto;
+                border: 0px none rgb(0, 0, 0);
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                -webkit-transform: translateZ(0px);
+                background-color: rgba(11, 11, 11, 0.941176);
+                background-size: 100% 100%;
+                
+            }
+            
+            #ledterminalshort {
+             
+                position: absolute;
+                margin: 0px;
+                left: 120px;
+                top: 150px;
+                width: 3px;
+                height: 75px;
+                right: auto;
+                bottom: auto;
+                border: 0px none rgb(0, 0, 0);
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                -webkit-transform: translateZ(0px);
+                background-color: rgba(11, 11, 11, 0.941176);
+                background-size: 100% 100%;
+                
+            }
+            
+            .glow {
+                
+                background-color: rgba(12, 242, 42, 0.941176);
+                -webkit-box-shadow: 0px 0px 15px 5px rgba(14, 249, 8, 0.75);
+                -moz-box-shadow: 0px 0px 15px 5px rgba(14, 249, 8, 0.75);
+                box-shadow: 0px 0px 15px 5px rgba(14, 249, 8, 0.75);
+                
+                
+            }
+            
+            .dim {
+                
+                background-color: rgba(132, 242, 146, 0.941176);
+                
+                
+            }
+            
+            button {
+             
+                position: absolute;
+                top: 125px;
+                left: 250px;
+                
+            }
+            
+            h3 {
+             
+                position: absolute;
+                left: 80px;
+                
+            }
+            
+        </style>
+    
+    </head>
+    <body>
+        <div id="controller">
+            <div>
+            <h3>Raspberry Pi LED Controller</h3>
+            </div>
+            <div id='led' class='dim'>
+            </div>
+            <div id='ledterminallong'>
+            </div>
+            <div id='ledterminalshort'>
+            </div>
+            <button id='toggle'>TOGGLE</button>
+        </div>
+        <script type="text/javascript">
+            
+            var pubnub = PUBNUB.init({
+                publish_key: 'pub-c-bd0276ed-f876-49cc-b73d-aa05b31efe63',
+                subscribe_key: 'sub-c-76d94746-b211-11e4-b35d-02ee2ddab7fe'
+            });
+            
+            pubnub.subscribe({
+                channel: 'gpio-raspberry-control',
+                message: function(m){
+                
+                    console.log(m)
+                    
+                    if('resp' in m) {
+                     
+                        if('on' ==  m['resp']){
+                            
+                            $('#led').removeClass('dim');
+                            $('#led').addClass('glow');
+                            
+                        } else {
+                            
+                            $('#led').removeClass('glow');
+                            $('#led').addClass('dim');
+                            
+                        }
+                        
+                    }
+                
+                }
+                
+            });
+            
+            $( document ).ready(function() {
+                
+                $('#toggle').click(function(e){
+                    
+                    pubmsg = { "req" : "toggle" };
+                    
+                    pubnub.publish(
+                    
+                        { 
+                            channel : 'gpio-raspberry-control' ,
+                            message :  pubmsg
+                            
+                        }
+                        
+                    );
+                
+                });
+                
+            });
+            
+        </script>
+    </body>
+</html>
