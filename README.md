@@ -6,14 +6,14 @@ A simple IoT application to demonstrate how an LED device attached to a Raspberr
 
 
 ## PREREQUISITES
-1. Setup the hardware as per the schematic drawing provided in Schematic.jpeg
+1. Setup the hardware as per the schematic drawing provided in Schematic.jpg file
 2. Power on the Raspberry Pi, and make sure that it is running Raspbian OS with python 2 installed. 
-3. Ensure that internet connectivity is available and RPi GPIO Python library installed.
+3. Ensure that internet connectivity is available and RPi GPIO Python library is installed.
  
 
 ## USAGE
-1. Run the python driver code driver/pidriver.py in the Raspberry Pi console.
-2. Launch a web browser and open the controller/index.html file in it.
+1. Run the python driver code 'driver/pidriver.py' from the python interpreter on the Raspberry Pi console.
+2. Launch a web browser in another computer and open the 'controller/index.html' page file in it.
 3. Press the TOGGLE button on the web page to toggle the glowing state of the LED connected to the Raspberry Pi. The current state on the LED device is also reflected on the web page. Click on the button several times to see the LED state alternating between on and off. 
 
 ## PITFALLS
