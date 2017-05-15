@@ -1,5 +1,5 @@
 
-from Pubnub import Pubnub
+from pubnub import Pubnub
 import json,time
 
 try:
